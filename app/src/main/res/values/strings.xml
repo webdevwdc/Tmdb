@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">WebskittersTest</string>
+
+    <string name="no_internet">No Internet Access,Check your internet connection.</string>
+    <string name="timed_out">Connection Timed out..</string>
+    <string name="server_unreachable">Server can\'t be reached at this moment. Try again later.</string>
+    <string name="err_msg">Something went wrong. Try again later..</string>
+</resources>
