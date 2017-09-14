@@ -16,7 +16,6 @@ import rx.Observable;
 /**
  * Created by android on 12/9/17.
  *
- *api_key=da86572d94091de3671c20ed449c4c70&language=en&page=1&primary_release_date.gte=2017-07-01&primary_release_date.lte=2017-08-28
  */
 
 public interface RestApiService {
