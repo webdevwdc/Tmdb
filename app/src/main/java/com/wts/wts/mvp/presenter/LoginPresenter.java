@@ -12,6 +12,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.ConnectException;
+import java.util.concurrent.TimeoutException;
 
 import javax.inject.Inject;
 
@@ -34,7 +36,6 @@ public class LoginPresenter extends BasePresenter<LoginView> implements Observer
     }
 
     public void onLoginSubmit(String email,String pwd){
-
         if(validateForm(email,pwd)){
             getView().showDialog();
             Observable<LoginRequest> loginResponseObservable = mApiService.login(email,pwd);
@@ -61,21 +62,7 @@ public class LoginPresenter extends BasePresenter<LoginView> implements Observer
 
     @Override
     public void onError(Throwable e) {
-        getView().hideDialog();
-
-        if (e instanceof HttpException) {
-            try {
-                ResponseBody body = ((HttpException) e).response().errorBody();
-                JSONObject jObj=new JSONObject(body.string());
-                getView().showErrorMsg("Error: "+jObj.optString("status")+" "+jObj.optString("message"));
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-            }
-        }else{
-            getView().showErrorMsg("Oops! Something went wrong. Try again later.");
-        }
+        handleHTTPException(e);
     }
 
     @Override

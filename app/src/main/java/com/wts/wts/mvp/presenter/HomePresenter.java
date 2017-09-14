@@ -56,9 +56,7 @@ public class HomePresenter extends BasePresenter<HomeView> implements Observer<M
 
     @Override
     public void onError(Throwable e) {
-        getView().hideDialog();
-        getView().showErrorMsg(e.getMessage());
-        Log.d("Response-Error","onError");
+       handleHTTPException(e);
     }
 
     @Override

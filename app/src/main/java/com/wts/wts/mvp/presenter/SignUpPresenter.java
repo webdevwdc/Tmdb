@@ -33,7 +33,6 @@ public class SignUpPresenter extends BasePresenter<SignUpView> implements Observ
     public void onFormSubmit(String firstName,String lastName,String pwd,String email,String contactNo){
      if(validateForm(firstName,lastName,pwd,email,contactNo)){
          getView().showDialog();
-
          Observable<SignUpRequest> loginResponseObservable = mApiService.registerUser(firstName,lastName,pwd,email,contactNo);
          subscribe(loginResponseObservable,this);
      }
@@ -46,21 +45,7 @@ public class SignUpPresenter extends BasePresenter<SignUpView> implements Observ
 
     @Override
     public void onError(Throwable e) {
-        getView().hideDialog();
-
-        if (e instanceof HttpException) {
-            try {
-                ResponseBody body = ((HttpException) e).response().errorBody();
-                JSONObject jObj=new JSONObject(body.string());
-                getView().showErrorMsg("Error: "+jObj.optString("status")+" "+jObj.optString("message"));
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-            }
-        }else{
-            getView().showErrorMsg("Oops! Some went wrong. Try again later.");
-        }
+        handleHTTPException(e);
     }
 
     @Override
@@ -94,7 +79,6 @@ public class SignUpPresenter extends BasePresenter<SignUpView> implements Observ
             getView().showErrorMsg("Contact No cannot be blank.");
             return false;
         }
-
         return true;
     }
 }
